@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { StyleSheet } from "react-native";
 import { Colors, screenHeight, screenWidth } from "../utils/Constants";
 
 export const homeHeaderStyles = StyleSheet.create({
     mainContainer: {
-        backgroundColor: Colors.primary,
+        backgroundColor: '#000',
     },
     container: {
         padding: 10,

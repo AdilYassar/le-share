@@ -1,10 +1,13 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React, { FC } from 'react'
+import { commonStyles } from '../styles/commonStyles'
+import HomeHeader from '../components/home/HomeHeader'
+
 
 const HomeScreen:FC = () => {
   return (
-    <View>
-      <Text>HomeScreen</Text>
+    <View style={commonStyles.baseContainer}>
+     <HomeHeader />
     </View>
   )
 }

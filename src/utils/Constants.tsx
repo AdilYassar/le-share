@@ -26,8 +26,7 @@ export const isBase64 = (str: string) => {
 export const screenHeight = Dimensions.get('screen').height
 export const screenWidth = Dimensions.get('screen').width
 export const multiColor = ['#0B3D91', '#1E4DFF', '#104E8B', '#4682B4', '#6A5ACD', '#7B68EE']
-export const svgPath = "M0,100L120,120C240,140,480,180,720,180C960,180,1200,140,1320,120L1440,100L1440,0L1320,0C1200,0,960,0,720,0C480,0,240,0,120,0L0,0Z"
-
+export const svgPath ="M0,288L34.3,266.7C68.6,245,137,203,206,202.7C274.3,203,343,245,411,256C480,267,549,245,617,202.7C685.7,160,754,96,823,96C891.4,96,960,160,1029,160C1097.1,160,1166,96,1234,74.7C1302.9,53,1371,75,1406,85.3L1440,96L1440,0L1405.7,0C1371.4,0,1303,0,1234,0C1165.7,0,1097,0,1029,0C960,0,891,0,823,0C754.3,0,686,0,617,0C548.6,0,480,0,411,0C342.9,0,274,0,206,0C137.1,0,69,0,34,0L0,0Z"
 
 export enum Colors {
   primary = '#bb9e9e',

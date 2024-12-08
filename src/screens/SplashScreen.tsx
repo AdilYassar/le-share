@@ -14,7 +14,7 @@ const SplashScreen:FC = () => {
       };
       
     useEffect(()=>{
-        const timeoutId = setTimeout(navigateToHome,2000);
+        const timeoutId = setTimeout(navigateToHome,2500);
         return ()=>clearTimeout(timeoutId);
     },[]);
   return (
