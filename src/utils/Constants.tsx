@@ -30,11 +30,11 @@ export const svgPath = "M0,100L120,120C240,140,480,180,720,180C960,180,1200,140,
 
 
 export enum Colors {
-  primary = '#007AFF',
-  background = '#fff',
+  primary = '#bb9e9e',
+  background = '#000',
   text = '#222',
-  theme = '#CF551F',
+  theme = '#bb9e9e',
   secondary = '#E5EBF5',
-  tertiary = '#3C75BE',
+  tertiary = '#C56767FF',
   secondary_light = '#F6F7F9',
 }

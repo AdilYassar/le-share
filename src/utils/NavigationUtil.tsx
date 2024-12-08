@@ -6,46 +6,62 @@ import {
 
 export const navigationRef = createNavigationContainerRef();
 
-export async function navigate(routeName: string, params?: object) {
-  navigationRef.isReady();
+/**
+ * Navigates to a specific route name with optional parameters.
+ */
+export function navigate(routeName: string, params?: object) {
   if (navigationRef.isReady()) {
-      navigationRef.dispatch(CommonActions.navigate(routeName, params));
+    navigationRef.dispatch(CommonActions.navigate({ name: routeName, params }));
+  } else {
+    console.error("Navigation reference is not ready. Cannot navigate.");
   }
 }
 
-export async function replace(routeName: string, params?: object) {
-  navigationRef.isReady();
+/**
+ * Replaces the current screen with a new one.
+ */
+export function replace(routeName: string, params?: object) {
   if (navigationRef.isReady()) {
-      navigationRef.dispatch(StackActions.replace(routeName, params));
+    navigationRef.dispatch(StackActions.replace(routeName, params));
+  } else {
+    console.error("Navigation reference is not ready. Cannot replace screen.");
   }
 }
 
-export async function resetAndNavigate(routeName: string) {
-  navigationRef.isReady();
+/**
+ * Resets the navigation stack and navigates to a specific screen.
+ */
+export function resetAndNavigate(routeName: string) {
   if (navigationRef.isReady()) {
-      navigationRef.dispatch(
-          CommonActions.reset({
-              index: 0,
-              routes: [{ name: routeName }],
-          }),
-      );
+    navigationRef.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: routeName }],
+      })
+    );
+  } else {
+    console.error("Navigation reference is not ready. Cannot reset and navigate.");
   }
 }
 
-export async function goBack() {
-  navigationRef.isReady();
-  if (navigationRef.isReady()) {
-      navigationRef.dispatch(CommonActions.goBack());
+/**
+ * Goes back to the previous screen in the navigation stack.
+ */
+export function goBack() {
+  if (navigationRef.isReady() && navigationRef.canGoBack()) {
+    navigationRef.dispatch(CommonActions.goBack());
+  } else {
+    console.error("Navigation reference is not ready or there is no screen to go back to.");
   }
 }
 
-export async function push(routeName: string, params?: object) {
-  navigationRef.isReady();
+/**
+ * Pushes a new screen onto the navigation stack.
+ */
+export function push(routeName: string, params?: object) {
   if (navigationRef.isReady()) {
-      navigationRef.dispatch(StackActions.push(routeName, params));
+    navigationRef.dispatch(StackActions.push(routeName, params));
+  } else {
+    console.error("Navigation reference is not ready. Cannot push screen.");
   }
-}
-
-export async function prepareNavigation() {
-  navigationRef.isReady();
 }
