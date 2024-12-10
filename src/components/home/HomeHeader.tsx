@@ -1,14 +1,16 @@
 
 import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { homeHeaderStyles } from '../../styles/homeHeaderStyles';
 import { commonStyles } from '../../styles/commonStyles';
 import Icon from '../global/Icon';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
 import { screenHeight, screenWidth, svgPath } from '../../utils/Constants';
+import QRGenerateModal from '../modals/QRGenerateModal';
 
 
 const HomeHeader = () => {
+const [isVisible,setVisible] = useState(false)
     return (
         <View style={homeHeaderStyles.mainContainer}>
             <SafeAreaView />
@@ -17,7 +19,7 @@ const HomeHeader = () => {
                     <Icon iconFamily="MaterialIcons" name="menu" size={22} color="#fff" />
                 </TouchableOpacity>
                 <Image source={require('../../assets/images/3.png')} style={homeHeaderStyles.logo} />
-                <TouchableOpacity onPress={() => { console.log('profile logo pressed') }}>
+                <TouchableOpacity onPress={() => { setVisible(true) }}>
                     <Icon iconFamily="MaterialIcons" name="person" size={22} color="#fff" />
                 </TouchableOpacity>
 
@@ -47,6 +49,10 @@ const HomeHeader = () => {
             fill="url(#grid)" // Use gradient for a smooth blend
         />
     </Svg>
+    {isVisible
+    && 
+    <QRGenerateModal visible={isVisible} onClose={()=>setVisible(false)} />
+    }
 </View>
 
         </View>
