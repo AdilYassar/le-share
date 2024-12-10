@@ -6,6 +6,8 @@ import { commonStyles } from '../../styles/commonStyles';
 import Icon from '../global/Icon';
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
 import { screenHeight, screenWidth, svgPath } from '../../utils/Constants';
+
+
 const HomeHeader = () => {
     return (
         <View style={homeHeaderStyles.mainContainer}>
@@ -20,32 +22,33 @@ const HomeHeader = () => {
                 </TouchableOpacity>
 
             </View>
-
+       
 
          {/* Wrap the SVG in a separate View */}
-         <View style={{ marginTop: 35 }}> {/* Adjust marginTop to control the space below the header */}
-                <Svg
-                    height={screenHeight * 0.18}
-                    width={screenWidth}
-                    viewBox='0 0 1000 220'
-                    style={homeHeaderStyles.curve}
-                >
-                    <Defs>
-                        <LinearGradient id='grid' x1="1" y1='0' x2='0' y2='0'>
-                            <Stop offset="0%" stopColor='#bb9e9e' stopOpacity="1" />
-                            <Stop offset="100%" stopColor='#332F2FFF' stopOpacity="1" />
-                        </LinearGradient>
-                    </Defs>
+         <View style={{ marginTop: 35 }}>
+    <Svg
+        height={screenHeight * 0.18} // Adjust height as needed
+        width={screenWidth}
+        viewBox="0 0 1440 220" // Ensure viewBox matches your path dimensions
+        style={homeHeaderStyles.curve}
+    >
+        <Defs>
+            <LinearGradient id="grid" x1="0" y1="0" x2="0" y2="1"> 
+                {/* Top: Black */}
+                <Stop offset="0%" stopColor="#000000" stopOpacity="1" />
+                {/* Bottom: Gradient color */}
+                <Stop offset="100%" stopColor="#bb9e9e" stopOpacity="1" />
+            </LinearGradient>
+        </Defs>
 
-                    <Path
-                        fill='#332F2FFF'
-                        d={svgPath}
-                    />
-                    <Path
-                        fill='url(#grid)'
-                    />
-                </Svg>
-            </View>
+        {/* Background Curve Path */}
+        <Path
+            d={svgPath} 
+            fill="url(#grid)" // Use gradient for a smooth blend
+        />
+    </Svg>
+</View>
+
         </View>
     );
 };

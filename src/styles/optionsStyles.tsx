@@ -10,13 +10,13 @@ export const optionStyles = StyleSheet.create({
         shadowOpacity: 0.1,
         elevation: 5,
         shadowRadius: 5,
-        shadowColor: "#888",
-        backgroundColor:"#fff",
+        shadowColor: "#000",
+        backgroundColor:"#bb9e9e",
         borderRadius: 10,
    
         borderWidth: 1,
         marginTop:25,
-        borderColor: '#eee'
+        borderColor: '#000'
       },
       subContainer: {
         justifyContent: 'center',
