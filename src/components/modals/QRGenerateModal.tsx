@@ -7,6 +7,9 @@ import CustomText from '../global/CustomText';
 import QRCode from 'react-native-qrcode-svg';
 import { multiColor } from '../../utils/Constants';
 import DeviceInfo from 'react-native-device-info';
+import { useTcp } from '../../service/TCPProvider';
+import { navigate } from '../../utils/NavigationUtil';
+import { getLocalIPAddress } from '../../utils/networkUtils';
 
 interface ModalProps {
   visible: boolean;
@@ -16,10 +19,24 @@ interface ModalProps {
 const QRGenerateModal: FC<ModalProps> = ({ visible, onClose }) => {
   const [loading, setLoading] = useState(true);
   const [qrValue, setQRValue] = useState('adil');
+  const {isConnected,startServer,server} = useTcp();
 
 
   const setUpServer=async()=>{
     const deviceName = await DeviceInfo.getDeviceName()
+    const port = 4000;
+    const ip = await getLocalIPAddress()
+    if(server){
+    
+     
+      setQRValue(`tcp://${ip}:${port} | ${deviceName}`)
+
+      setLoading(false)
+      return
+    }
+    startServer(port)
+    setQRValue(`tcp://${ip}:${port} | ${deviceName}`)
+    console.log('QRGenerateModal :setUpServer',`tcp://${ip}:${port} | ${deviceName}`) 
     setLoading(false)
   }
   // Simulate QR code generation when the modal is visible
@@ -29,6 +46,15 @@ const QRGenerateModal: FC<ModalProps> = ({ visible, onClose }) => {
         setUpServer();
     }
   }, [visible]);
+
+  useEffect(() => { 
+    console.log('TCPProvider :isConnected',isConnected)
+    if(isConnected){
+      onClose();
+      navigate('ConnectionScreen');
+    }
+  }, [isConnected]);
+
 
   return (
     <Modal

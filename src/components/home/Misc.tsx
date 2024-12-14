@@ -7,9 +7,9 @@ const Misc = () => {
   return (
     <View style={styles.container}>
       <CustomText fontSize={13} fontFamily='Okra-Bold' style={{color:'#fff'}}>Explore</CustomText>
-        <Image source={require("../../assets/icons/wild_robot.jpg")} style={styles.adbanner} />
+        <Image source={require("../../assets/images/motivating.jpeg")} style={styles.adbanner} />
     <View style={commonStyles.flexRowBetween}>
-        <CustomText fontFamily='Okra-Bold' fontSize={32} style={[{color:'#fff'},styles.text]}> #1 My First File Sharing App</CustomText>
+        <CustomText fontFamily='Okra-Bold' fontSize={32} style={[{color:'#fff'},styles.text]}>Introducing File Sharing App LeShare </CustomText>
         <Image source={require("../../assets/images/2.png")} style={styles.image} />
     </View>
    

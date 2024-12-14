@@ -3,6 +3,9 @@ import React, { FC } from 'react'
 import { optionStyles } from '../../styles/optionsStyles';
 import Icon from '../global/Icon';
 import CustomText from '../global/CustomText';
+import { useTcp } from '../../service/TCPProvider';
+import { navigate } from '../../utils/NavigationUtil';
+import { pickDocument, pickImage } from '../../utils/libraryHelpers';
 
 const Options:FC<{
     isHome?:boolean,
@@ -10,8 +13,25 @@ const Options:FC<{
     onFilePickedUp?:(file:any) => void;
 }> = ({isHome,onFilePickedUp,onMediaPickedUp}) => {
 
-    const handleUniversalPicker = async(type:string)=>{
+  const {isConnected}=useTcp()
 
+    const handleUniversalPicker = async(type:string)=>{
+      if(isHome){
+        if(isConnected){
+          navigate('ConnectionScreen')
+        }else{
+          navigate('SendScreen')
+        }
+        return 
+      }
+
+      if(type==='images' && onMediaPickedUp){
+        pickImage(onMediaPickedUp)
+      }
+      if(type==='document' && onFilePickedUp){
+        pickDocument(onFilePickedUp)
+      }
+       
     }
   return (
     <View style={optionStyles.container}>

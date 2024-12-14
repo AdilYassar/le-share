@@ -54,8 +54,9 @@ export const TCPProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const { setChunkStore, currentChunkSet, setCurrentChunkSet } = useChunkStore();
 
-    const startServer = useCallback((port: number) => {
+    const startServer = useCallback( (port: number) => {
         if (server) {
+            console.error('server already running');
             return;
         }
         const newServer = TcpSocket.createTLSServer(options, (socket: any) => {
