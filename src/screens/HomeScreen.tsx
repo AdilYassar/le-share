@@ -1,4 +1,4 @@
-import { ScrollView, View } from 'react-native'
+import { ScrollView, StatusBar, View } from 'react-native'
 import React, { FC } from 'react'
 import { commonStyles } from '../styles/commonStyles'
 import HomeHeader from '../components/home/HomeHeader'
@@ -6,16 +6,22 @@ import SendRecieveButton from '../components/home/SendRecieveButton'
 import Options from '../components/home/Options'
 import Misc from '../components/home/Misc'
 import AbsoluteQRBottom from '../components/home/AbsoluteQRBottom'
+import News from '../components/home/News'
+import CustomText from '../components/global/CustomText'
 
 
 const HomeScreen:FC = () => {
   return (
     <View style={commonStyles.baseContainer}>
-     <HomeHeader />
-     <ScrollView contentContainerStyle={{padding:15, paddingBottom:100}} showsVerticalScrollIndicator={false} >
+     
+     <ScrollView contentContainerStyle={{padding:5}} showsVerticalScrollIndicator={false} >
+      <HomeHeader />
        <SendRecieveButton />
         <Options isHome />
+        <CustomText fontSize={22} style={{color:'#bb9e9e',marginTop:25, marginBottom:5}}>Latest News</CustomText>
+        <News  />
         <Misc />
+      
      </ScrollView>
 
 

@@ -12,7 +12,7 @@ const AbsoluteQRBottom = () => {
   return (
     <>
     <View style={bottomTabStyles.container}>
-      <TouchableOpacity onPress={()=>navigate('RecievedFileScreen')}  >
+      <TouchableOpacity onPress={()=>navigate('ReceivedFileScreen')}  >
         <Icon  name='application-outline' iconFamily='MaterialCommunityIcons' color='#bb9e9e'  size={24} />
       </TouchableOpacity>
       <TouchableOpacity onPress={()=>setVisible(true)} style={bottomTabStyles.qrCode} >
