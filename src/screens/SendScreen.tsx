@@ -1,4 +1,4 @@
-import { View, Text, Animated, Easing, SafeAreaView } from 'react-native'
+import { View, Animated, Easing, SafeAreaView, TouchableOpacity, Image } from 'react-native'
 import React, { FC, useEffect, useState } from 'react'
 import { useTcp } from '../service/TCPProvider'
 import { goBack, navigate } from '../utils/NavigationUtil'
@@ -6,10 +6,15 @@ import dgram from 'react-native-udp'
 import LinearGradient from 'react-native-linear-gradient'
 import { sendStyles } from '../styles/sendStyles'
 import Icon from '../components/global/Icon'
+import CustomText from '../components/global/CustomText'
+import BreakerText from '../components/ui/BreakerText'
+// import lottie from 'lottie-react-native'
+import LottieView from 'lottie-react-native'
+import { screenHeight, screenWidth } from '../utils/Constants'
+import QRScannerModal from '../components/modals/QRScannerModal'
 
 
-
-const deviceName = ['Oppo', 'redmi note 12', 'tecno camon 19', 'samsung galaxy s21', 'iphone 12', 'huawei y9a', 'infinix note 8', 'itel p36', 'nokia 8.3', 'sony xperia 1']
+const deviceName = ['Oppo',  'Tecno 19', 'Samsung S21', 'iPhone 12', 'Huawei Y9a', 'Itel P36',  'Sony Xperia 1'];
 
 
 
@@ -54,7 +59,7 @@ const SendScreen:FC = () => {
             name: otherDevices,
             image: require('../assets/icons/device.jpeg'),
             fullAddress: msg?.toString(),
-            position: getRandomPosition(150, prevDevices.map((device) => device.position), 50),
+            position: getRandomPosition(50, prevDevices.map((device) => device.position), 50),
             scale: new Animated.Value(0),
           };
           Animated.timing(newDevice.scale, {
@@ -89,23 +94,22 @@ const SendScreen:FC = () => {
   }, [])
 
 
-const getRandomPosition = (radius:number, existingPositions:{x:number, y:number}[],minDistance:number) => {
-
-  let position:any;
+const getRandomPosition = (radius: number, existingPositions: { x: number, y: number }[], minDistance: number) => {
+  let position: any;
   let isOverlapping;
-  do{
-    const angle = Math.random() * 360;
-    const distance = Math.random() * (radius-50) +50;
-    const x = distance * Math.cos((angle+Math.PI) / 180);
-    const y = distance * Math.sin((angle+Math.PI) / 180);
-    position = {x, y};
+  do {
+    const angle = Math.random() * 2 * Math.PI;
+    const distance = Math.random() * (radius - minDistance) + minDistance;
+    const x = distance * Math.cos(angle);
+    const y = distance * Math.sin(angle);
+    position = { x, y };
 
     isOverlapping = existingPositions.some((existingPosition) => {
       const dx = existingPosition.x - position.x;
       const dy = existingPosition.y - position.y;
-      return Math.sqrt(dx*dx + dy*dy) < minDistance;
+      return Math.sqrt(dx * dx + dy * dy) < minDistance;
     });
-  } while(isOverlapping);
+  } while (isOverlapping);
   return position;
 }
 
@@ -118,7 +122,7 @@ useEffect(() => {
           name: deviceName[nearbyDevices.length % deviceName.length],
           image: require('../assets/icons/device.jpeg'),
           fullAddress: `tcp://${nearbyDevices.length % deviceName.length}`,
-          position: getRandomPosition(150, nearbyDevices.map((device: { position: any; }) => device.position), 50),
+          position: getRandomPosition(200, nearbyDevices.map((device: { position: any; }) => device.position), 50),
           scale: new Animated.Value(0),
         };
         Animated.timing(newDevice.scale, {
@@ -148,8 +152,65 @@ useEffect(() => {
     <View style={sendStyles.mainContainer}>
     <View style={sendStyles.infoContainer}>
       <Icon name='search' size={40} color='#000' iconFamily='MaterialIcons'   />
+      <CustomText fontFamily='Okra-Bold' fontSize={16} style={{marginTop:20, color:'#000'}} >
+         Looking for nearby devices
+      </CustomText>
+      <CustomText fontFamily='Okra-Bold' fontSize={12} style={{textAlign:'center',color:'#000'}}>
+        Ensure your device's Hotspot is on and the client is connected to the same network
+      </CustomText>
+    <BreakerText text='or'/>
+  <TouchableOpacity style={sendStyles.qrButton} onPress={()=>setIsScannerVisible(true)}>
+    <Icon name='qrcode' size={16} color='#000' iconFamily='MaterialCommunityIcons' />
+    <CustomText fontFamily='Okra-Bold' fontSize={12} style={{textAlign:'center',color:'#000'}}>
+      Scan QR Code
+    </CustomText>
+  </TouchableOpacity>
     </View>
+
+    <View style={sendStyles.animationContainer}>
+      <View style={sendStyles.lottieContainer}>
+        <LottieView style={sendStyles.lottie}  source={require('../assets/animations/scanner.json')} autoPlay loop={true} hardwareAccelerationAndroid />
+        {
+          nearbyDevices?.map((device) => (
+            <Animated.View
+            key={device?.id}
+            style={[sendStyles.deviceDot,{
+              transform: [
+              
+
+                {scale: device?.scale},
+              ],
+              left:screenWidth/2 + device?.position?.x,
+              top:screenHeight/2 + device?.position?.y,
+            }]}
+            >
+              <TouchableOpacity style={sendStyles.popup} onPress={()=>handleScan(device?.fullAddress)}>
+                <Image source={device?.image} style={sendStyles.deviceImage} />
+                <CustomText fontFamily='Okra-Bold' fontSize={12} style={[sendStyles.deviceText,{color:'#000'}]}>
+                  {device?.name}
+                </CustomText>
+              </TouchableOpacity>
+            </Animated.View>
+          ))
+        }
+      
+      
+      </View>
+      <Image source={require('../assets/images/profile.jpg')} style={sendStyles.profileImage
+
+      } />
     </View>
+      <TouchableOpacity onPress={handleGoBack} style={sendStyles.backButton}>
+        <Icon name='arrow-back' size={20} color='#000' iconFamily='MaterialIcons' />
+       
+      </TouchableOpacity>
+
+    </View>
+    {
+      isScannerVisible && (
+        <QRScannerModal visible={isScannerVisible} onClose={()=>setIsScannerVisible(false)}  />
+      )
+    }
     </LinearGradient>
   )
 }
