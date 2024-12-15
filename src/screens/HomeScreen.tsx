@@ -14,8 +14,13 @@ const HomeScreen:FC = () => {
   return (
     <View style={commonStyles.baseContainer}>
      
-     <ScrollView contentContainerStyle={{padding:5}} showsVerticalScrollIndicator={false} >
+      
+     
+    
+     <ScrollView contentContainerStyle={{padding:5, marginBottom:35}} showsVerticalScrollIndicator={false} >
+      <>
       <HomeHeader />
+      </>
        <SendRecieveButton />
         <Options isHome />
         <CustomText fontSize={22} style={{color:'#bb9e9e',marginTop:25, marginBottom:5}}>Latest News</CustomText>
