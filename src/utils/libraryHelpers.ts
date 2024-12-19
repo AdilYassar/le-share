@@ -68,7 +68,7 @@ export const checkFilePermissions = async (platform:string) => {
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       ]);
       if (granted['android.permission.READ_EXTERNAL_STORAGE'] && granted['android.permission.WRITE_EXTERNAL_STORAGE']) {
-        console.log("STORAGE PERMISSION GRANTED ✅")
+        console.log("STORAGE PERMISSION GRANTED ")
         return true;
       } else {
         return false;
