@@ -13,75 +13,60 @@ import QRGenerateModal from '../components/modals/QRGenerateModal'
 import DeviceInfo from 'react-native-device-info'
 import { getBroadcastIPAddress, getLocalIPAddress } from '../utils/networkUtils'
 
-
-
-
 const ReceiveScreen:FC = () => {
   const {startServer,server, isConnected} = useTcp();
   const [isScannerVisible, setIsScannerVisible] = useState(false);
  const [qrValue, setQrValue] = useState('')
  const intervalRef = useRef<NodeJS.Timeout | null>(null);
  
- 
- 
- 
  const setUpServer=async()=>{
   const deviceName = await DeviceInfo.getDeviceName()
   const port = 4000;
   const ip = await getLocalIPAddress()
   if(!server){
-  
    startServer(port)
-    
-    
   }
   setQrValue(`tcp://${ip}:${port} | ${deviceName}`)
   console.log('server info' ,`tcp://${ip}:${port} | ${deviceName}`)
-  
 }
-
 
 const sendDiscoverySignal = async () => {
-const deviceName = await DeviceInfo.getDeviceName()
-const broadcastAddress = await getBroadcastIPAddress()
-const targetAddress = broadcastAddress || '255.255.255.255'
-const port = 57143;
+  const deviceName = await DeviceInfo.getDeviceName();
+  const broadcastAddress = await getBroadcastIPAddress();
+  const targetAddress = broadcastAddress || '255.255.255.255';
+  const port = 57143;
 
-
-const client = dgram.createSocket({ type: 'udp4', reusePort: true })
-client.bind(()=>{
-  try {
-    if(Platform.OS === 'android'){
-      client.setBroadcast(true)
-    }
-    client.send(`${qrValue}`, 0, `${qrValue}`.length, port, targetAddress, (error) => {
-      if (error) {
-        console.error('failed to send discovery signal', error);
-        if (!client.close) {
-          client.close();
-        }
-      } else {
-        console.log(`${deviceName}`, 'sent discovery signal', `${targetAddress}:${port}`);
-        if (!client.close) {
-          client.close();
-        }
+  const client = dgram.createSocket({ type: 'udp4', reusePort: true });
+  client.bind(() => {
+    try {
+      if (Platform.OS === 'android') {
+        client.setBroadcast(true);
       }
-    });
-    
-  } catch (error) {
-    console.error('failed to set broadcast ',error)
-    client.close()
-  }
-})
+      client.send(`${qrValue}`, 0, `${qrValue}`.length, port, targetAddress, (error) => {
+        if (error) {
+          console.error('Failed to send discovery signal:', error);
+          client.close();
+        } else {
+          console.log(`${deviceName} sent discovery signal to ${targetAddress}:${port}`);
+          client.close();
+        }
+      });
+    } catch (error) {
+      console.error('Failed to set broadcast:', error);
+      client.close();
+    }
+  });
 
+  client.on('error', (err) => {
+    console.error('Socket error:', err);
+    client.close();
+  });
+};
 
-
-}
 useEffect(() => {
   if(!qrValue) return
   sendDiscoverySignal();
-  intervalRef.current = setInterval(sendDiscoverySignal, 3000)
-
+  intervalRef.current = setInterval(sendDiscoverySignal, 2000)
 
   return () => {
     if(intervalRef.current){
@@ -90,8 +75,6 @@ useEffect(() => {
     }
   }
 }, [qrValue])
- 
-
 
   useEffect(() => {
     if(isConnected){
@@ -101,7 +84,6 @@ useEffect(() => {
       }
       navigate('ConnectionScreen')
     }
-
   }, [isConnected])
 
   const handleGoBack = () => {
@@ -111,7 +93,6 @@ useEffect(() => {
     }
   goBack()
   }
-
 
   useEffect(() => {
     setUpServer()
