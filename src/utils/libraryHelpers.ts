@@ -58,22 +58,25 @@ export const formatFileSize = (sizeInBytes: number): string => {
   }
 };
 
-
-
-export const checkFilePermissions = async (platform:string) => {
-  if(platform === 'android') {
+export const checkFilePermissions = async (platform: string) => {
+  if (platform === 'android') {
     try {
       const granted = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       ]);
-      if (granted['android.permission.READ_EXTERNAL_STORAGE'] && granted['android.permission.WRITE_EXTERNAL_STORAGE']) {
-        console.log("STORAGE PERMISSION GRANTED ")
+      if (
+        granted[PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE] === PermissionsAndroid.RESULTS.GRANTED &&
+        granted[PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE] === PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log("STORAGE PERMISSION GRANTED");
         return true;
       } else {
+        console.log("STORAGE PERMISSION DENIED");
         return false;
       }
     } catch (err) {
+      console.log("PERMISSION ERROR: ", err);
       return false;
     }
   } else {

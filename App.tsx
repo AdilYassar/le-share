@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { View, Text, SafeAreaView, Platform } from 'react-native';
+import {  Platform } from 'react-native';
 import React, { useEffect } from 'react';
 import Navigation from './src/navigation/Navigation';
 import { requestPhotoPermission } from './src/utils/Constants';

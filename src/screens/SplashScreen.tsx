@@ -10,7 +10,7 @@ const SplashScreen:FC = () => {
 
     const navigateToHome = () => {
         console.log('Navigating to Home screen...');
-        navigate('HomeScreen');
+        navigate('ConnectionScreen');
       };
       
     useEffect(()=>{

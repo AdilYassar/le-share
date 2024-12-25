@@ -10,7 +10,7 @@ export const requestPhotoPermission = async () => {
     if (result === RESULTS.GRANTED) {
       console.log('STORAGE PERMISSION GRANTED ✅');
     } else {
-      console.log('STORAGE PERMISSION DENIED ❌');
+      console.log('STORAGE PERMISSION DENIEDD ❌');
     }
   } catch (error) {
     console.error('Error requesting permission:', error);

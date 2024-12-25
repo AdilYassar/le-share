@@ -50,11 +50,11 @@ const ConnectionScreen:FC = () => {
     sendFileAck(file, 'file');
   }
 
-  useEffect(()=>{
-    if(!isConnected){
-      resetAndNavigate('HomeScreen');
-    }
-  },[isConnected])
+  // useEffect(()=>{
+  //   if(!isConnected){
+  //     resetAndNavigate('HomeScreen');
+  //   }
+  // },[isConnected])
   
 
 
